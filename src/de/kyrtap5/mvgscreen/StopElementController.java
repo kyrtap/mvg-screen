@@ -35,9 +35,10 @@ public class StopElementController implements Initializable {
     private String getType(Departure departure) {
         switch (departure.getType()) {
             case BUS:
-            case EXPRESSBUS:
             case NACHTBUS:
                 return "bus";
+            case EXPRESSBUS:
+                return "xbus";
             case TRAM:
                 return "tram";
             case UBAHN:
