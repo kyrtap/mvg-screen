@@ -16,14 +16,20 @@ public class ScreenController {
     public AnchorPane topPane;
     public VBox mainPane;
 
-    private final MvgTicker ticker = new MvgTicker("Hauptbahnhof");
+    private final MvgTicker ticker = new MvgTicker(Main.station);
 
     public void initialize() {
         stopLabel.setText(ticker.getStation());
         mainPane.setBackground(new Background(new BackgroundFill(Color.MEDIUMBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         topPane.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        refreshData();
+        try {
+            refreshData();
+        } catch (Exception ex) {
+            System.err.println("Error while initializing the departure screen! See the stacktrace for more details:");
+            ex.printStackTrace();
+            System.exit(-1);
+        }
 
         Thread th = new Thread(new TickerTask());
         th.setDaemon(true);
@@ -52,7 +58,7 @@ public class ScreenController {
     }
 
     private void refreshData() {
-        while(mainPane.getChildren().size() != 1) mainPane.getChildren().remove(1);
+        while (mainPane.getChildren().size() != 1) mainPane.getChildren().remove(1);
         for (Departure d : ticker.getDepartures(true, true, true, true)) {
             mainPane.getChildren().add(new StopElement(d));
         }
