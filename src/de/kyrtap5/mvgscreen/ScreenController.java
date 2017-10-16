@@ -25,10 +25,8 @@ public class ScreenController {
 
         try {
             refreshData();
-        } catch (Exception ex) {
-            System.err.println("Error while initializing the departure screen! See the stacktrace for more details:");
-            ex.printStackTrace();
-            System.exit(-1);
+        } catch (Exception e) {
+            printException(e);
         }
 
         Thread th = new Thread(new TickerTask());
@@ -44,10 +42,15 @@ public class ScreenController {
             while (true) {
                 try {
                     Platform.runLater(() -> clockLabel.setText(DateHandler.formatDate(new Date(), "HH:mm")));
-                    Thread.sleep(1000);
+                    Thread.sleep(Main.refreshInterval);
                     if (++counter == 20) {
-                        System.out.println("refresh");
-                        Platform.runLater(() -> refreshData());
+                        Platform.runLater(() -> {
+                            try {
+                                refreshData();
+                            } catch (Exception e) {
+                                printException(e);
+                            }
+                        });
                         counter = 0;
                     }
                 } catch (Exception ex) {
@@ -57,10 +60,15 @@ public class ScreenController {
         }
     }
 
-    private void refreshData() {
+    private void refreshData() throws Exception {
         while (mainPane.getChildren().size() != 1) mainPane.getChildren().remove(1);
         for (Departure d : ticker.getDepartures(true, true, true, true)) {
             mainPane.getChildren().add(new StopElement(d));
         }
+    }
+
+    private void printException(Exception exception) {
+        System.err.println("An error occured while executing the application: " + exception.toString());
+        System.exit(-1);
     }
 }

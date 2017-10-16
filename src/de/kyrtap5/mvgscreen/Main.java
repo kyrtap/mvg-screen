@@ -8,9 +8,10 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     public static String station;
+    public static int refreshInterval = 10000;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Screen.fxml"));
         primaryStage.setTitle("MVG Screen");
         primaryStage.setFullScreen(true);
@@ -20,7 +21,23 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        station = args[0];
+        System.out.println("===== MVG Screen v1.1.0 =====\n");
+
+        if (args.length != 0) station = args[0];
+        else printUsage();
+
+        if (args.length >= 2) {
+            refreshInterval = Integer.parseInt(args[1]) * 1000;
+        }
+
+        System.out.println("Starting screen for '" + station + "' with refresh interval " + refreshInterval / 1000 + "s.");
+
         launch(args);
+    }
+
+    private static void printUsage() {
+        System.out.println("Example usage: java -jar mvgscreen.jar Ostbahnhof 5\n" +
+                "Use the first parameter to define a stop or station and the second one to set the refresh interval in seconds (if empty, the default value of 10s will be used).");
+        System.exit(-1);
     }
 }
