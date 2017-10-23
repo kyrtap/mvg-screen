@@ -31,7 +31,14 @@ public class Main extends Application {
 
         //Check whether refresh interval was passed and save it
         if (args.length >= 2) {
-            refreshInterval = Integer.parseInt(args[1]) * 1000;
+            //Check whether
+            try {
+                refreshInterval = Integer.parseInt(args[1]) * 1000;
+            } catch (Exception ex) {
+                System.err.println("Error: mismatched parameter type!");
+                printUsage();
+                System.exit(-1);
+            }
         }
 
         //Start output
