@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" prefHeight="100.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.121"
+<AnchorPane fx:id="anchor" prefHeight="100.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.kyrtap5.mvgscreen.StopElement">
     <HBox fx:id="leftPane" prefHeight="100.0" prefWidth="1500.0" spacing="15" AnchorPane.leftAnchor="15.0">
         <children>
